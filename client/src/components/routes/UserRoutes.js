@@ -5,8 +5,8 @@ import { ProfilePage, LoginPage} from "../../pages";
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<ProfilePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="" element={<ProfilePage />} />
+      <Route path="login" element={<LoginPage />} />
     </Routes>
   );
 };
