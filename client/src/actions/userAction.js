@@ -46,6 +46,7 @@ const registerUser = (data) => {
 }
 
 const loginUser = (data) => {
+    console.log('masuk dispatch');
     return async (dispatch) => {
         dispatch({
             type: LOGIN,
@@ -62,6 +63,7 @@ const loginUser = (data) => {
                 data: data,
                 timeout: 12000
             })
+            console.log(response);
             dispatch({
                 type: LOGIN,
                 payload: {
@@ -71,6 +73,7 @@ const loginUser = (data) => {
                 }
             })
         } catch (error) {
+            console.log(error);
             dispatch({
                 type: LOGIN,
                 payload: {
