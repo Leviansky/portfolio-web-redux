@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     image: DataTypes.STRING
   }, {
+    hooks: {
+      beforeCreate: function(user,options) {
+        user.name = user.username
+        user.image = 'https://i.pinimg.com/236x/cb/45/72/cb4572f19ab7505d552206ed5dfb3739.jpg'
+      }
+    },
     sequelize,
     modelName: 'User',
   });

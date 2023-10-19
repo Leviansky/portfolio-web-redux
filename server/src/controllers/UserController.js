@@ -50,8 +50,8 @@ class UserController {
     static async edit(req,res) {
         try {
             const id = +req.user.id;
-            const {name, image, description, phone} = req.body;
-            let result = await User.update({name, image, description, phone},{ where: {id}})
+            const {name, image} = req.body;
+            let result = await User.update({name, image},{ where: {id}})
             result[0] === 1
             ? res.status(200).json({message: `Update has been success`})
             : res.status(401).json(result);

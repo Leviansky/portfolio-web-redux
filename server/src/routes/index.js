@@ -7,12 +7,12 @@ route.get("/api", (req, res) => {
 });
 
 const userRoute = require("./user");
-// const friendlistRoute = require("./friendlist");
+const postRoute = require("./post");
 // const roomRoutes = require("./room");
 // const bookingRoute = require("./booking")
 
-route.use("/api/user", userRoute);
-// route.use("/api/friendlist", friendlistRoute);
+route.use("/api/users", userRoute);
+route.use("/api/posts", postRoute);
 // route.use("/api", roomRoutes);
 // route.use("/api", bookingRoute)
 
