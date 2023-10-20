@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { resetLogin } from '../../actions/userAction'
+import {useDispatch} from 'react-redux';
 
 const Navbar = () => {
   const [token, setToken] = useState(null);
   const [name, setName] = useState('');
+  const dispatch = useDispatch()
 
-  const navigate = useNavigate()
-
+  
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))
     setName(localStorage.getItem('name'))
-  }, [token])
-
+  }, [])
+  
+  const navigate = useNavigate()
   const logoutHandler = () => {
-    localStorage.clear()
-    navigate('/user/login')
+    localStorage.clear();
+    dispatch(resetLogin())
+    navigate('/user/login');
   }
 
   return (

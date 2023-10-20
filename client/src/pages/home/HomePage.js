@@ -9,13 +9,12 @@ const HomePage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))
-    console.log(token)
     if(token !== null) {
       setIsLogin(true)
     } else {
       setIsLogin(false)
     }
-  }, [token, isLogin])
+  }, [])
   return (
     <>
       {

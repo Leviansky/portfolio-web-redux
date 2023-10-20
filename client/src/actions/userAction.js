@@ -7,6 +7,7 @@ const token = localStorage.getItem("access_token")
 const REGISTER = "REGISTER";
 const RESET_REGISTER = "RESET_REGISTER";
 const LOGIN = "LOGIN";
+const RESET_LOGIN = "RESET_LOGIN";
 const EDIT = "EDIT";
 
 const registerUser = (data) => {
@@ -115,6 +116,19 @@ const loginUser = (data) => {
     }
 }
 
+const resetLogin = () => {
+    return (dispatch) =>{
+        dispatch({
+            type: RESET_LOGIN,
+            payload: {
+                loading: false,
+                data: false,
+                errorMessage: false,
+            }
+        })
+    }
+}
+
 const editUser = (data) => {
     return async (dispatch) => {
         dispatch({
@@ -161,9 +175,11 @@ export {
     REGISTER,
     RESET_REGISTER,
     LOGIN,
+    RESET_LOGIN,
     EDIT,
     registerUser,
     resetRegister,
     loginUser,
+    resetLogin,
     editUser
 }

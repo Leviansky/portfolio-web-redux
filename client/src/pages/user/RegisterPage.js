@@ -46,7 +46,7 @@ const RegisterPage = () => {
     return (
         <div style={styles.container}>
             <div style={styles.loginContainer}>
-                <h2 style={styles.caption}>Craete an account</h2>
+                <h2 style={styles.caption}>Create an account</h2>
                 <h1 style={styles.title}>Register</h1>
                 <form style={styles.form} onSubmit={(event) => registerHandler(event)}>
                     <input style={styles.input} type="text" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)}/>
