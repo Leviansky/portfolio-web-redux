@@ -1,6 +1,8 @@
-import { REGISTER, LOGIN, EDIT, RESET_REGISTER, RESET_LOGIN } from "../../actions/userAction";
+import { REGISTER, LOGIN, EDIT, RESET_REGISTER, RESET_LOGIN, ISLOGIN, SETLOGIN } from "../../actions/userAction";
 
 const initialState = {
+    isLoginResult: false,
+    
     registerUserResult: false,
     registerUserLoading: false,
     registerUserError: false,
@@ -16,6 +18,16 @@ const initialState = {
 
 const UserReducer = (state = initialState, action) => {
     switch(action.type) {
+        case ISLOGIN:
+            return {
+                ...state,
+                isLoginResult: action.payload.data
+            }
+        case SETLOGIN:
+            return {
+                ...state,
+                isLoginResult: action.payload.data
+            }
         case REGISTER: 
             return {
                 ...state,

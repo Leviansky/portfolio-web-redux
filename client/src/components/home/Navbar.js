@@ -59,7 +59,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     position: 'fixed',
-    width: '100vw'
+    width: '100vw',
+    marginBottm: '20px',
   },
   containerNavbar: {
     display: 'flex',

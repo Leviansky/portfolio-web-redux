@@ -1,14 +1,47 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const URL = 'http://localhost:3000/api'
+const URL = 'http://localhost:3000/api/users'
 const token = localStorage.getItem("access_token")
 
+const ISLOGIN = "ISLOGIN";
+const SETLOGIN = "SETLOGIN";
 const REGISTER = "REGISTER";
 const RESET_REGISTER = "RESET_REGISTER";
 const LOGIN = "LOGIN";
 const RESET_LOGIN = "RESET_LOGIN";
 const EDIT = "EDIT";
+
+const isLogin = () => {
+    return (dispatch) =>{
+        if(localStorage.getItem("access_token") !== null) {
+            dispatch({
+                type: ISLOGIN,
+                payload: {
+                    data: true
+                }
+            })
+        } else {
+            dispatch({
+                type: ISLOGIN,
+                payload: {
+                    data: false
+                }
+            })
+        }
+    }
+}
+
+const setLogin = () => {
+    return (dispatch) =>{
+        dispatch({
+            type: SETLOGIN,
+            payload: {
+                data: true,
+            }
+        })
+    }
+}
 
 const registerUser = (data) => {
     return async (dispatch) => {
@@ -23,7 +56,7 @@ const registerUser = (data) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: URL + '/users/register',
+                url: URL + '/register',
                 data: data,
                 timeout: 12000
             })
@@ -79,7 +112,7 @@ const loginUser = (data) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: URL + '/users/login',
+                url: URL + '/login',
                 data: data,
                 timeout: 12000
             })
@@ -142,7 +175,7 @@ const editUser = (data) => {
         try {
             let response = await axios({
                 method: 'PUT',
-                url: URL + '/users/edit',
+                url: URL + '/edit',
                 data: data,
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -172,11 +205,15 @@ const editUser = (data) => {
 
 
 export {
+    ISLOGIN,
+    SETLOGIN,
     REGISTER,
     RESET_REGISTER,
     LOGIN,
     RESET_LOGIN,
     EDIT,
+    isLogin,
+    setLogin,
     registerUser,
     resetRegister,
     loginUser,

@@ -1,4 +1,4 @@
-const { Post } = require('../../models')
+const { Post, User } = require('../../models')
 
 class PostController {
     static async create(req,res) {
@@ -15,7 +15,7 @@ class PostController {
     static async getPosted(req,res) {
         try {
             const UserId = +req.user.id;
-            let posts = await Post.findAll({where:{UserId,isPosting:true}})
+            let posts = await Post.findAll({where:{UserId,isPosting:true},include:[User]})
             res.status(200).json(posts)
         } catch (error) {
             res.status(500).json(error)
