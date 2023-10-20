@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    // const { registerUserResult, registerUserLoading, registerUserError } = useSelector((state) => state.UserReducer)
   const [token, setToken] = useState(null);
   const [name, setName] = useState('');
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))
     setName(localStorage.getItem('name'))
-    // dispatch(registerUser({username, password, verifPassword}))
   }, [token])
+
+  const logoutHandler = () => {
+    localStorage.clear()
+    navigate('/user/login')
+  }
 
   return (
     <div style={styles.Navbar}>
@@ -25,7 +31,10 @@ const Navbar = () => {
       </div>
       {
         name
-        ? <div style={styles.loginButton}>{}</div>
+        ? <div style={styles.profile}> 
+            <div>{name}</div>
+            <button style={styles.logoutButton} onClick={() => logoutHandler()}>LOGOUT!</button>
+          </div>
         : <button style={styles.loginButton}>LOGIN!</button>
       }
     </div>
@@ -69,5 +78,25 @@ const styles = {
     paddingBottom: 8,
     backgroundColor: '#E5E5E5',
     border: '0px'
+  },
+  logoutButton: {
+    alignSelf: 'center',
+    paddingLeft: 22,
+    paddingRight: 22,
+    paddingTop: 8,
+    paddingBottom: 8,
+    backgroundColor: '#E5E5E5',
+    border: '0px',
+  },
+  profile: {
+    position: 'absolute',
+    right: 30,
+    paddingLeft: 22,
+    paddingRight: 22,
+    paddingTop: 8,
+    paddingBottom: 8,
+    alignSelf: 'center',
+    display: 'flex',
+    gap: '20px',
   }
 };
