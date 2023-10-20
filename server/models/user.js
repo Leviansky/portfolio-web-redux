@@ -11,18 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Post)
+      User.hasMany(models.Education)
+      User.hasMany(models.Experience)
+      User.hasMany(models.Organitation)
     }
   }
   User.init({
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     name: DataTypes.STRING,
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
+    address: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate: function(user,options) {
         user.name = user.username
         user.image = 'https://i.pinimg.com/236x/cb/45/72/cb4572f19ab7505d552206ed5dfb3739.jpg'
+        user.address = ''
       }
     },
     sequelize,

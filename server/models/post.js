@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     static associate(models) {
       // define association here
+      Post.belongsTo(models.User)
     }
   }
   Post.init({
