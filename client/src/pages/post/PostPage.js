@@ -7,17 +7,17 @@ import { isLogin } from '../../actions/userAction';
 import { setActiveTab } from '../../actions/homeAction';
 
 
-const HomePage = () => {
+const PostPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const {isLoginResult} = useSelector((state) => state.UserReducer)
-  
+
   useEffect(() => {
     dispatch(isLogin())
   }, [isLoginResult, dispatch])
-  
+
   useEffect(() => {
-    dispatch(setActiveTab('Home'))
+    dispatch(setActiveTab('Post'))
   }, [dispatch])
 
   return (
@@ -26,7 +26,7 @@ const HomePage = () => {
         isLoginResult
         ? <div style={styles.container}>
             <Navbar />
-            <Content />
+            {/* <Content /> */}
           </div>  
         : navigate('/user/login')
       }
@@ -34,7 +34,7 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default PostPage;
 
 const styles = {
   container: {

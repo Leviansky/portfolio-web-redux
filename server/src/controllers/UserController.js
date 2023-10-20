@@ -1,4 +1,4 @@
-const {User, Education, Experience, Organitation} = require('../../models')
+const {User, Education, Experience, Organitation, Post  } = require('../../models')
 const {EncryptPwd, DecryptPwd} = require('../helpers/bycrypt')
 const {encodeToken} = require('../helpers/jwt')
 
@@ -63,7 +63,7 @@ class UserController {
     static async detailUser(req,res) {
         try {
             const id = +req.user.id;
-            let result = await User.findOne({where:{id},include: [Education, Experience, Organitation]})
+            let result = await User.findOne({where:{id},include: [Education, Experience, Organitation, Post]})
             res.status(200).json(result)
         } catch (error) {
             res.status(500).json(error);
