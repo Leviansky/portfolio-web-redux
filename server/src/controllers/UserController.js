@@ -1,4 +1,4 @@
-const {User} = require('../../models')
+const {User, Education, Experience, Organitation} = require('../../models')
 const {EncryptPwd, DecryptPwd} = require('../helpers/bycrypt')
 const {encodeToken} = require('../helpers/jwt')
 
@@ -50,11 +50,21 @@ class UserController {
     static async edit(req,res) {
         try {
             const id = +req.user.id;
-            const {name, image} = req.body;
-            let result = await User.update({name, image},{ where: {id}})
+            const {name, image, address} = req.body;
+            let result = await User.update({name, image, address},{ where: {id}})
             result[0] === 1
             ? res.status(200).json({message: `Update has been success`})
             : res.status(401).json(result);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async detailUser(req,res) {
+        try {
+            const id = +req.user.id;
+            let result = await User.findOne({where:{id},include: [Education, Experience, Organitation]})
+            res.status(200).json(result)
         } catch (error) {
             res.status(500).json(error);
         }
