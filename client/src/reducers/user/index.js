@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, EDIT } from "../../actions/userAction";
+import { REGISTER, LOGIN, EDIT, RESET_REGISTER } from "../../actions/userAction";
 
 const initialState = {
     registerUserResult: false,
@@ -22,6 +22,13 @@ const UserReducer = (state = initialState, action) => {
                 registerUserResult: action.payload.data,
                 registerUserLoading: action.payload.loading,
                 registerUserError: action.payload.errorMessage
+            }
+        case RESET_REGISTER:
+            return {
+                ...state,
+                registerUserResult: false,
+                registerUserLoading: false,
+                registerUserError: false
             }
         case LOGIN:
             return {

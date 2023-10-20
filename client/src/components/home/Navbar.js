@@ -2,29 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-    
     // const { registerUserResult, registerUserLoading, registerUserError } = useSelector((state) => state.UserReducer)
-
-
   const [token, setToken] = useState(null);
+  const [name, setName] = useState('');
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))
+    setName(localStorage.getItem('name'))
     // dispatch(registerUser({username, password, verifPassword}))
-  }, [])
+  }, [token])
 
   return (
     <div style={styles.Navbar}>
       <div style={styles.containerNavbar}>
         <Link style={styles.link}>Home</Link>
         {
-            token
-            ? <Link style={styles.link}>Post</Link>
-            : <></>
+          token
+          ? <Link style={styles.link}>Post</Link>
+          : <></>
         }
         <Link style={styles.link}>About us</Link>
         <Link style={styles.link}>Contact us</Link>
       </div>
-      <button style={styles.loginButton}>LOGIN!</button>
+      {
+        name
+        ? <div style={styles.loginButton}>{}</div>
+        : <button style={styles.loginButton}>LOGIN!</button>
+      }
     </div>
   );
 }

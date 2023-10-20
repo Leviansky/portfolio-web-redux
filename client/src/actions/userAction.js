@@ -1,9 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 const URL = 'http://localhost:3000/api'
 const token = localStorage.getItem("access_token")
-const id = localStorage.getItem("id")
 
 const REGISTER = "REGISTER";
+const RESET_REGISTER = "RESET_REGISTER";
 const LOGIN = "LOGIN";
 const EDIT = "EDIT";
 
@@ -33,6 +35,11 @@ const registerUser = (data) => {
                 }
             })
         } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed...',
+                text: error.response.data.message,
+              })
             dispatch({
                 type: REGISTER,
                 payload: {
@@ -45,8 +52,20 @@ const registerUser = (data) => {
     }
 }
 
+const resetRegister = () => {
+    return (dispatch) =>{
+        dispatch({
+            type: RESET_REGISTER,
+            payload: {
+                loading: false,
+                data: false,
+                errorMessage: false,
+            }
+        })
+    }
+}
+
 const loginUser = (data) => {
-    console.log('masuk dispatch');
     return async (dispatch) => {
         dispatch({
             type: LOGIN,
@@ -63,7 +82,13 @@ const loginUser = (data) => {
                 data: data,
                 timeout: 12000
             })
-            console.log(response);
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Login success',
+                showConfirmButton: false,
+                timer: 1500
+              })
             dispatch({
                 type: LOGIN,
                 payload: {
@@ -73,7 +98,11 @@ const loginUser = (data) => {
                 }
             })
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed...',
+                text: error.response.data.message,
+              })
             dispatch({
                 type: LOGIN,
                 payload: {
@@ -130,9 +159,11 @@ const editUser = (data) => {
 
 export {
     REGISTER,
+    RESET_REGISTER,
     LOGIN,
     EDIT,
     registerUser,
+    resetRegister,
     loginUser,
     editUser
 }
