@@ -7,7 +7,8 @@ import {
     RESET_ADD_POST, 
     DETAIL_POST, 
     MODAL_EDIT_POST,
-    EDIT_POST
+    EDIT_POST,
+    DELETE_POST
 } from "../../actions/postAction"
 
 const initialState = {
@@ -30,6 +31,10 @@ const initialState = {
     editPostResult: false,
     editPostLoading: false,
     editPostError: false,
+
+    deletePostResult: false,
+    deletePostLoading: false,
+    deletePostError: false,
 
     isOpenModalAddPost: false,
     isOpenModalEditPost: false,
@@ -84,6 +89,13 @@ const PostReducer = (state = initialState, action) => {
                 editPostResult: action.payload.data,
                 editPostLoading: action.payload.loading,
                 editPostError: action.payload.errorMessage
+            }
+        case DELETE_POST: 
+            return {
+                ...state,
+                deletePostResult: action.payload.data,
+                deletePostLoading: action.payload.loading,
+                deletePostError: action.payload.errorMessage
             }
         case RESET_ADD_POST: 
             return {

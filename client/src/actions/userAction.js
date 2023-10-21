@@ -151,6 +151,13 @@ const loginUser = (data) => {
 
 const resetLogin = () => {
     return (dispatch) =>{
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Logout success',
+            showConfirmButton: false,
+            timer: 1500
+          })
         dispatch({
             type: RESET_LOGIN,
             payload: {

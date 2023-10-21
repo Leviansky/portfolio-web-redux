@@ -19,7 +19,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     dispatch(isLogin())
-    console.log(isLoginResult)
   }, [isLoginResult, dispatch])
 
   useEffect(() => {

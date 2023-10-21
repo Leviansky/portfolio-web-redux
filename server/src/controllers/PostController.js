@@ -60,6 +60,18 @@ class PostController {
             res.status(500).json(error)
         }
     }
+
+    static async delete(req,res) {
+        try {
+            const id = +req.params.id;
+            let result = await Post.destroy({where:{id}})
+            result === 1
+            ? res.status(200).json({message:"Delete posting success"})
+            : res.status(401).json({message:"Delete posting failed"})
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
 }
 
 module.exports = PostController

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { changeStatusModalEditPost, editPost, getPosts, resetAddPost } from '../../actions/postAction';
+import { changeStatusModalEditPost, deletePost, editPost, getPosts, resetAddPost } from '../../actions/postAction';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const ModalEditPost = () => {
   const dispatch = useDispatch()
@@ -22,16 +23,55 @@ const ModalEditPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(id,{title, content, image});
-    dispatch(editPost(id,{title, content, image})).then((result) => {
-        // dispatch(resetAddPost())
-        setTitle('')
-        setContent('')
-        setImage('')
-        dispatch(getPosts())
-    }).catch((err) => {
-        console.error(err);
-    });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to update this content?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, update it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            dispatch(editPost(id,{title, content, image}))
+            setTitle('')
+            setContent('')
+            setImage('')
+            Swal.fire(
+                'Retrieved!',
+                'Your post has been successfully updated.',
+                'success'
+                )
+            }
+            dispatch(getPosts())
+        })
+    dispatch(changeStatusModalEditPost(false))
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to delete this content?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            dispatch(deletePost(id))
+            setTitle('')
+            setContent('')
+            setImage('')
+            Swal.fire(
+                'Retrieved!',
+                'Your post has been successfully deleted.',
+                'success'
+                )
+            }
+            dispatch(getPosts())
+        })
     dispatch(changeStatusModalEditPost(false))
   };
   
@@ -46,7 +86,7 @@ const ModalEditPost = () => {
           &times;
         </span>
         <div style={styles.title}>EDIT POST</div>
-        <form style={styles.formContainer} onSubmit={handleSubmit}>
+        <form style={styles.formContainer} onSubmit={handleSubmit} onReset={handleDelete}>
           <label style={styles.label}>URL Image:</label>
           <input
             style={styles.form}
@@ -70,9 +110,10 @@ const ModalEditPost = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <button type="submit" style={styles.submitButton}>
-            Submit
-          </button>
+          <div style={styles.buttonContainer}>
+            <button type="reset" style={styles.deleteButton}>Delete</button>
+            <button type="submit" style={styles.submitButton}>Submit</button>
+          </div>
         </form>
       </div>
     </div>
@@ -85,7 +126,7 @@ const styles = {
     left: 0,
     top: 0,
     width: '100%',
-    height: '100%',
+    // height: '100%',
     overflow: 'auto',
     backgroundColor: 'rgba(0,0,0,0.4)',
     zIndex: '10',
@@ -99,7 +140,7 @@ const styles = {
     width: '32%',
     display: 'flex',
     flexDirection: 'column',
-    position: 'relative'
+    position: 'relative',
   },
   closeButton: {
     color: '#aaa',
@@ -112,8 +153,11 @@ const styles = {
   },
   formContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: 'red'
+    flexDirection: 'column'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   submitButton: {
     marginTop: '10px',
@@ -123,6 +167,19 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    width: '48%',
+    fontWeight: 'bold',
+  },
+  deleteButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    width: '48%',
+    fontWeight: 'bold',
   },
   title: {
     marginTop: '10px',

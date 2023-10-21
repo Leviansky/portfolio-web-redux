@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { addPost, changeStatusModalAddPost, getPosts, resetAddPost } from '../../actions/postAction';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const ModalAddPost = () => {
   const dispatch = useDispatch()
@@ -17,6 +18,13 @@ const ModalAddPost = () => {
     }).catch((err) => {
         console.error(err);
     });
+    Swal.fire({
+        // position: 'top-end',
+        icon: 'success',
+        title: 'Successfully added your post!',
+        showConfirmButton: false,
+        timer: 1500
+    })
     dispatch(changeStatusModalAddPost(false))
   };
   

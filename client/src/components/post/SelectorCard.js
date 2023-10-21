@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const SelectorCard = () => {
   const dispatch = useDispatch();
-  const { changePostResult, getPostsResult, getPostsLoading, getPostsError } = useSelector(
+  const { changePostResult, getPostsResult, getPostsLoading, getPostsError, detailPostResult } = useSelector(
     (state) => state.PostReducer
   );
 
@@ -62,7 +62,6 @@ const SelectorCard = () => {
   };
 
   const handleEdit = (data) => {
-    console.log(data);
     dispatch(detailPost(data))
     dispatch(changeStatusModalEditPost(true))
   }

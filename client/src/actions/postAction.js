@@ -11,6 +11,7 @@ const RESET_ADD_POST = "RESET_ADD_POST";
 const DETAIL_POST = "DETAIL_POST";
 const MODAL_EDIT_POST = "MODAL_EDIT_POST";
 const EDIT_POST = "EDIT_POST";
+const DELETE_POST = "DELETE_POST";
 
 const changeStatusModalAddPost = (data) => {
     return async (dispatch) => {
@@ -36,6 +37,8 @@ const changeStatusModalEditPost = (data) => {
 
 const detailPost = (data) => {
     return async (dispatch) => {
+        console.log('cek di dispatch ==============');
+        console.log(data);
         dispatch({
             type: DETAIL_POST,
             payload: {
@@ -225,6 +228,48 @@ const changePost = (id) => {
     }
 }
 
+const deletePost = (id) => {
+    return async (dispatch) => {
+        dispatch({
+            type: DELETE_POST,
+            payload: {
+                data: false,
+                loading: true,
+                errorMessage: false,
+            }
+        })
+        try {
+            let response = await axios({
+                method: 'DELETE',
+                url: URL + '/' + id,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                },
+                timeout: 12000
+            })
+            console.log(response);
+            dispatch({
+                type: DELETE_POST,
+                payload: {
+                    data: response.data,
+                    loading: false,
+                    errorMessage: false,
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            dispatch({
+                type: DELETE_POST,
+                payload: {
+                    loading: false, 
+                    data: false,
+                    errorMessage: error,
+                }
+            })
+        }
+    }
+}
+
 const editPost = (id, data) => {
     return async (dispatch) => {
         dispatch({
@@ -279,6 +324,8 @@ export {
     DETAIL_POST,
     MODAL_EDIT_POST,
     EDIT_POST,
+    DELETE_POST,
+    deletePost,
     editPost,
     changeStatusModalEditPost,
     detailPost,
