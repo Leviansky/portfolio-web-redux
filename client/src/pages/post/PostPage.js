@@ -1,11 +1,14 @@
-import React, {useEffect} from 'react'
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTab } from '../../actions/homeAction';
-import Content from '../../components/home/Content'
 import SelectorCard from '../../components/post/SelectorCard';
+import ModalAddPost from '../../components/post/ModalAddPost';
+import { changeStatusModalAddPost, changeStatusModalEditPost } from '../../actions/postAction';
+import ModalEditPost from '../../components/post/ModalEditPost';
 
 const PostPage = () => {
   const dispatch = useDispatch()
+  const {isOpenModalAddPost, isOpenModalEditPost} = useSelector((state) => state.PostReducer)
 
   useEffect(() => {
     dispatch(setActiveTab('Post'))
@@ -14,12 +17,23 @@ const PostPage = () => {
   return (
     <div style={styles.container}>
       <div style={styles.content}>
-        <h1 style={styles.posts}>Your Posts</h1>
-        <h3 style={styles.overview}>Post overview</h3>
+        <div style={styles.containerText}>
+          <div style={styles.text}>
+            <h1 style={styles.posts}>Your Posts</h1>
+            <h3 style={styles.overview}>Post overview</h3>
+          </div>
+          <button style={styles.button} onClick={() => dispatch(changeStatusModalAddPost(true))}>+ ADD POST</button>
+        </div>
         <div style={styles.cardContainer}>
         <SelectorCard />
         </div>
       </div>
+      {
+        isOpenModalAddPost && (<ModalAddPost />)
+      }
+      {
+        isOpenModalEditPost && (<ModalEditPost />)
+      }
     </div>
   );
 };
@@ -33,7 +47,11 @@ const styles = {
     display: 'flex',
     flexDirection: 'column'
   },
-  
+  containerText: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   content: {
     marginTop: '10vh',
     height: '90vh',
@@ -44,13 +62,25 @@ const styles = {
   },
   posts: {
     fontWeight: '700',
-    margin: '0',
+    marginLeft: '20px',
+    marginBottom: '0'
   },
   overview: {
     fontWeight: '500',
-    margin: '0'
+    marginLeft: '20px',
+    marginTop: '0',
+    marginBottom: '0'
   },
-
+  button: {
+    paddingLeft: '50px',
+    paddingRight: '50px',
+    marginRight: '20px',
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    fontWeight: 'bold',
+    borderRadius: '20px',
+    cursor: 'pointer',
+  },
   cardContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',

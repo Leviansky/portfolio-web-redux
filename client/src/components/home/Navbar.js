@@ -86,6 +86,7 @@ const styles = {
     position: 'fixed',
     width: '100vw',
     marginBottm: '20px',
+    zIndex: '20'
   },
   containerNavbar: {
     display: 'flex',

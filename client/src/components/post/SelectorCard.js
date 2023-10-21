@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts, changePost } from '../../actions/postAction';
+import { getPosts, changePost, detailPost, changeStatusModalAddPost, changeStatusModalEditPost } from '../../actions/postAction';
 import Swal from 'sweetalert2';
 
 const SelectorCard = () => {
   const dispatch = useDispatch();
-  const { changePostResult, getPostsResult, getPostsLoading, getPostsError } = useSelector(
+  const { changePostResult, getPostsResult, getPostsLoading, getPostsError, detailPostResult,} = useSelector(
     (state) => state.PostReducer
   );
 
@@ -18,6 +18,10 @@ const SelectorCard = () => {
       dispatch(getPosts());
     }
   }, [changePostResult,dispatch]);
+
+  useEffect(() => {
+    console.log(detailPostResult);
+  }, [detailPostResult,dispatch]);
 
   const handleSelectPost = (postId, isPosting) => {
     if (isPosting) {
@@ -61,6 +65,11 @@ const SelectorCard = () => {
     }
   };
 
+  const handleEdit = (data) => {
+    dispatch(detailPost(data))
+    dispatch(changeStatusModalEditPost(true))
+  }
+
   return (
     <>
       {getPostsResult ? (
@@ -70,7 +79,7 @@ const SelectorCard = () => {
             style={styles.card}
           >
             <div style={styles.editButtonContainer}>
-              <button style={styles.editButton} onClick={(e) => e.stopPropagation()}>EDIT</button>
+              <button style={styles.editButton} onClick={() => handleEdit(post)}>EDIT</button>
             </div>
             <div style={styles.checkboxContainer} onClick={() => handleSelectPost(post.id,post.isPosting)}>
               <input
