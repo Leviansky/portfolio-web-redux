@@ -20,7 +20,7 @@ const getPosteds = () => {
                 method: 'GET',
                 url: URL,
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
                 },
                 timeout: 12000
             })
@@ -33,6 +33,7 @@ const getPosteds = () => {
                 }
             })
         } catch (error) {
+            console.log(error)
             dispatch({
                 type: GET_POSTEDS,
                 payload: {

@@ -1,5 +1,5 @@
-import React, {useEffect,useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { getPosteds } from '../../actions/postAction';
 
 const Content = () => {
@@ -11,10 +11,7 @@ const Content = () => {
   }, [dispatch])
 
   return (
-    <div style={styles.content}>
-      <h1 style={styles.posts}>Posts</h1>
-      <h3 style={styles.overview}>Post overview</h3>
-      <div style={styles.cardContainer}>
+    <>
         {
           getPostedResult
           ? getPostedResult.map((post) => {
@@ -33,8 +30,7 @@ const Content = () => {
             ? <p>Loading ...</p>
             : <p>{getPostedError ? getPostedError : "Data kosong"}</p>
         }
-      </div>
-    </div>
+    </>
   )
 }
 

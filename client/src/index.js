@@ -7,12 +7,12 @@ import App from "./app/App.js";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // import redux
-import { createStore, compose, applyMiddleware } from 'redux';
+import { compose, applyMiddleware, legacy_createStore } from 'redux';
 import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import reducers from "./reducers";
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)))
+const store = legacy_createStore(reducers, compose(applyMiddleware(thunk)))
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

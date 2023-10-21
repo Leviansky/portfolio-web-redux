@@ -7,6 +7,7 @@ const initialState = {
 }
 
 const PostReducer = (state = initialState, action) => {
+    console.log("Masuk reducer");
     switch(action.type) {
         case GET_POSTEDS: 
             return {
