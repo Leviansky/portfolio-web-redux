@@ -16,7 +16,7 @@ const HomePage = () => {
   return (
     <div style={styles.container}>
       <div style={styles.content}>
-        <h1 style={styles.posts}>Posts</h1>
+        <h1 style={styles.posts}>Recent Posts</h1>
         <h3 style={styles.overview}>Post overview</h3>
         <div style={styles.cardContainer}>
         <Content />

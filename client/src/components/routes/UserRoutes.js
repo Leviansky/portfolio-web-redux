@@ -5,9 +5,9 @@ import { ProfilePage, LoginPage, RegisterPage} from "../../pages";
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="" element={<ProfilePage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
+      <Route path="" element={<ProfilePage />} />
     </Routes>
   );
 };

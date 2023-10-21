@@ -25,22 +25,23 @@ class PostController {
     static async getAllPost(req,res) {
         try {
             const UserId = +req.user.id;
-            let posts = await Post.findAll({where:{UserId}})
+            let posts = await Post.findAll({where:{UserId},include:[User], order: [['createdAt', 'desc']]})
             res.status(200).json(posts)
         } catch (error) {
             res.status(500).json(error)
         }
     }
 
-    static async posting(req,res) {
+    static async changeStatusPosting(req,res) {
         try {
-            const UserId = +req.user.id;
             const id = +req.params.id;
             let post = await Post.findOne({where:{id}})
-            post.isPosting = true;
+            post.isPosting = !post.isPosting;
             let result = await Post.update({isPosting:post.isPosting},{where:{id}})
             result[0] === 1
-            ? res.status(200).json({message:"Posting success"})
+            ? post.isPosting
+              ? res.status(200).json({message:"Posting success"})
+              : res.status(200).json({message:"Retrieve Post success"})
             : res.status(401).json({message:"Posting failed"})
         } catch (error) {
             res.status(500).json(error)

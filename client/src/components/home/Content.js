@@ -7,8 +7,9 @@ const Content = () => {
   const {getPostedResult, getPostedLoading, getPostedError} = useSelector((state) => state.PostReducer)
 
   useEffect(() => {
-    dispatch(getPosteds())
-  }, [dispatch])
+    dispatch(getPosteds());
+  }, [dispatch]);
+
 
   return (
     <>

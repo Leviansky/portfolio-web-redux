@@ -19,24 +19,13 @@ const LoginPage = () => {
 
   useEffect(() => {
     dispatch(isLogin())
-    console.log("cari token di login");
     console.log(isLoginResult)
   }, [isLoginResult, dispatch])
-
-  // useEffect(() => {
-  //   setToken(localStorage.getItem("access_token"))
-  //   if(token) {
-  //     navigate('/');
-  //   }
-  // }, [token])
 
   useEffect(() => {
     if(loginUserResult) {
       localStorage.setItem("access_token", loginUserResult.access_token)
-      localStorage.setItem("id", loginUserResult.id)
-      localStorage.setItem("username", loginUserResult.username)
       localStorage.setItem("name", loginUserResult.name)
-      localStorage.setItem("image", loginUserResult.image)
       navigate('/');
       dispatch(setLogin())
     }
@@ -46,7 +35,6 @@ const LoginPage = () => {
       {
         isLoginResult
         ? navigate('/')
-        // ? <>tes udh masuk</>
         : <div style={styles.container}>
             <div style={styles.loginContainer}>
               <h2 style={styles.caption}>You must login!</h2>
@@ -80,7 +68,6 @@ const styles = {
     width: '50vw',
     display: 'flex',
     flexDirection: 'column',
-    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     padding: '30px',

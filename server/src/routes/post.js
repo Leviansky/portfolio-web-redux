@@ -6,6 +6,6 @@ postRoute.get('/',  authUser, PostController.getPosted);
 postRoute.post('/', authUser, PostController.create);
 postRoute.put('/:id', authUser, PostController.edit)
 postRoute.get('/all',  authUser, PostController.getAllPost);
-postRoute.post('/posting/:id',  authUser, PostController.posting);
+postRoute.post('/change/:id',  authUser, PostController.changeStatusPosting);
 
 module.exports = postRoute;
