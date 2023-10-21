@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const SelectorCard = () => {
   const dispatch = useDispatch();
-  const { getPostsResult, getPostsLoading, getPostsError } = useSelector(
+  const { changePostResult, getPostsResult, getPostsLoading, getPostsError } = useSelector(
     (state) => state.PostReducer
   );
 
@@ -13,46 +13,50 @@ const SelectorCard = () => {
     dispatch(getPosts());
   }, [dispatch]);
 
+  useEffect(() => {
+    if(changePostResult) {
+      dispatch(getPosts());
+    }
+  }, [changePostResult,dispatch]);
+
   const handleSelectPost = (postId, isPosting) => {
     if (isPosting) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You want to withdraw this content?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, take it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-              dispatch(changePost(postId))
-              Swal.fire(
-                  'Retrieved!',
-                  'Your post has been successfully retrieved.',
-                  'success'
-              )
-              dispatch(getPosts())
-            }
+      Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to withdraw this content?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, take it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(changePost(postId))
+            Swal.fire(
+                'Retrieved!',
+                'Your post has been successfully retrieved.',
+                'success'
+            )
+          }
         })
     } else {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You want to post this content?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, posting it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-              dispatch(changePost(postId))
-              Swal.fire(
-                  'Posted!',
-                  'Your post has been posted.',
-                  'success'
-              )
-              dispatch(getPosts())
-            }
+      Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to post this content?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, posting it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(changePost(postId))
+            Swal.fire(
+                'Posted!',
+                'Your post has been posted.',
+                'success'
+            )
+          }
         })
     }
   };
