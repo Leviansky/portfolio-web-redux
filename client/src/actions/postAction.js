@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const URL = 'http://localhost:3000/api/posts'
-const token = localStorage.getItem("access_token")
 
 const GET_POSTS = "GET_POSTS";
 const GET_POSTEDS = "GET_POSTEDS";
@@ -11,6 +10,7 @@ const ADD_POST = "ADD_POST";
 const RESET_ADD_POST = "RESET_ADD_POST";
 const DETAIL_POST = "DETAIL_POST";
 const MODAL_EDIT_POST = "MODAL_EDIT_POST";
+const EDIT_POST = "EDIT_POST";
 
 const changeStatusModalAddPost = (data) => {
     return async (dispatch) => {
@@ -225,6 +225,49 @@ const changePost = (id) => {
     }
 }
 
+const editPost = (id, data) => {
+    return async (dispatch) => {
+        dispatch({
+            type: EDIT_POST,
+            payload: {
+                data: false,
+                loading: true,
+                errorMessage: false,
+            }
+        })
+        try {
+            let response = await axios({
+                method: 'PUT',
+                url: URL + `/${id}`,
+                data: data,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                },
+                timeout: 12000
+            })
+            console.log(response.data);
+            dispatch({
+                type: EDIT_POST,
+                payload: {
+                    data: response.data,
+                    loading: false,
+                    errorMessage: false,
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            dispatch({
+                type: EDIT_POST,
+                payload: {
+                    loading: false, 
+                    data: false,
+                    errorMessage: error,
+                }
+            })
+        }
+    }
+}
+
 
 export {
     GET_POSTS,
@@ -235,6 +278,8 @@ export {
     RESET_ADD_POST,
     DETAIL_POST,
     MODAL_EDIT_POST,
+    EDIT_POST,
+    editPost,
     changeStatusModalEditPost,
     detailPost,
     resetAddPost,

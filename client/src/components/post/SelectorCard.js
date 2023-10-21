@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts, changePost, detailPost, changeStatusModalAddPost, changeStatusModalEditPost } from '../../actions/postAction';
+import { getPosts, changePost, detailPost, changeStatusModalEditPost } from '../../actions/postAction';
 import Swal from 'sweetalert2';
 
 const SelectorCard = () => {
   const dispatch = useDispatch();
-  const { changePostResult, getPostsResult, getPostsLoading, getPostsError, detailPostResult,} = useSelector(
+  const { changePostResult, getPostsResult, getPostsLoading, getPostsError } = useSelector(
     (state) => state.PostReducer
   );
 
@@ -18,10 +18,6 @@ const SelectorCard = () => {
       dispatch(getPosts());
     }
   }, [changePostResult,dispatch]);
-
-  useEffect(() => {
-    console.log(detailPostResult);
-  }, [detailPostResult,dispatch]);
 
   const handleSelectPost = (postId, isPosting) => {
     if (isPosting) {
@@ -66,6 +62,7 @@ const SelectorCard = () => {
   };
 
   const handleEdit = (data) => {
+    console.log(data);
     dispatch(detailPost(data))
     dispatch(changeStatusModalEditPost(true))
   }
@@ -109,7 +106,6 @@ const SelectorCard = () => {
 };
 
 export default SelectorCard;
-
 
 const styles = {
   content: {
@@ -205,7 +201,6 @@ const styles = {
   editButton: {
     background: 'none',
     border: 'none',
-    color: '#007BFF',
     cursor: 'pointer',
     fontWeight: 'bold',
     color: 'black',

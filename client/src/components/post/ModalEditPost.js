@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { addPost, changeStatusModalEditPost, getPosts, resetAddPost } from '../../actions/postAction';
+import { changeStatusModalEditPost, editPost, getPosts, resetAddPost } from '../../actions/postAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ModalEditPost = () => {
   const dispatch = useDispatch()
+  const [id, setId] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [image, setImage] = useState('')
 
-  const { addPostResult, getPostsResult, detailPostResult } = useSelector((state) => state.PostReducer)
+  const { detailPostResult } = useSelector((state) => state.PostReducer)
 
   useEffect(() => {
     if(detailPostResult){
+        setId(detailPostResult.id)
         setTitle(detailPostResult.title)
         setContent(detailPostResult.content)
         setImage(detailPostResult.image)
@@ -20,15 +22,17 @@ const ModalEditPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPost({title, content}))
-    dispatch(resetAddPost())
-    console.log(addPostResult);
-    console.log(getPostsResult);
-    setTitle('')
-    setContent('')
-    setImage('')
+    console.log(id,{title, content, image});
+    dispatch(editPost(id,{title, content, image})).then((result) => {
+        // dispatch(resetAddPost())
+        setTitle('')
+        setContent('')
+        setImage('')
+        dispatch(getPosts())
+    }).catch((err) => {
+        console.error(err);
+    });
     dispatch(changeStatusModalEditPost(false))
-    dispatch(getPosts())
   };
   
   const handleClose = () => {
@@ -61,7 +65,7 @@ const ModalEditPost = () => {
           />
           <label style={styles.label}>Content:</label>
           <textarea
-            style={styles.form}
+            style={styles.formArea}
             name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -78,7 +82,6 @@ const ModalEditPost = () => {
 const styles = {
   modal: {
     position: 'fixed',
-    zIndex: 1,
     left: 0,
     top: 0,
     width: '100%',
@@ -133,6 +136,11 @@ const styles = {
     marginBottom: '5px',
   },
   form: {
+    marginBottom: '10px',
+    fontSize: '17px',
+  },
+  formArea: {
+    height: '20vh',
     marginBottom: '10px',
     fontSize: '17px',
   }

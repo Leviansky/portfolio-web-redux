@@ -7,7 +7,7 @@ const Navbar = () => {
   const [token, setToken] = useState(null);
   const [name, setName] = useState('')
   const dispatch = useDispatch()
-  const {activeTab} = useSelector((state) => state.HomeReducer)
+  const { activeTab } = useSelector((state) => state.HomeReducer)
   
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))

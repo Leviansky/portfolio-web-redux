@@ -1,4 +1,14 @@
-import { GET_POSTEDS, GET_POSTS, CHANGE_POST, MODAL_ADD_POST, ADD_POST, RESET_ADD_POST, DETAIL_POST, MODAL_EDIT_POST } from "../../actions/postAction"
+import { 
+    GET_POSTEDS, 
+    GET_POSTS, 
+    CHANGE_POST, 
+    MODAL_ADD_POST, 
+    ADD_POST, 
+    RESET_ADD_POST, 
+    DETAIL_POST, 
+    MODAL_EDIT_POST,
+    EDIT_POST
+} from "../../actions/postAction"
 
 const initialState = {
     getPostsResult: false,
@@ -16,6 +26,10 @@ const initialState = {
     addPostResult: false,
     addPostLoading: false,
     addPostError: false,
+
+    editPostResult: false,
+    editPostLoading: false,
+    editPostError: false,
 
     isOpenModalAddPost: false,
     isOpenModalEditPost: false,
@@ -64,6 +78,13 @@ const PostReducer = (state = initialState, action) => {
                 addPostLoading: action.payload.loading,
                 addPostError: action.payload.errorMessage
             }
+        case EDIT_POST: 
+            return {
+                ...state,
+                editPostResult: action.payload.data,
+                editPostLoading: action.payload.loading,
+                editPostError: action.payload.errorMessage
+            }
         case RESET_ADD_POST: 
             return {
                 ...state,
@@ -74,7 +95,7 @@ const PostReducer = (state = initialState, action) => {
         case DETAIL_POST:
             return {
                 ...state,
-                detailPost: action.payload.data
+                detailPostResult: action.payload.data
             }
         default:
             return state;

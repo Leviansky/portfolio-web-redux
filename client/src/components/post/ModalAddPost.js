@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
 import { addPost, changeStatusModalAddPost, getPosts, resetAddPost } from '../../actions/postAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const ModalAddPost = () => {
   const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-//   const [image, setImage] = useState('')
-
-  const { addPostResult, getPostsResult } = useSelector((state) => state.PostReducer)
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPost({title, content}))
-    dispatch(resetAddPost())
-    console.log(addPostResult);
-    console.log(getPostsResult);
-    setTitle('')
-    setContent('')
-    // setImage('')
-    dispatch(getPosts())
+    dispatch(addPost({title, content})).then((result) => {
+        dispatch(resetAddPost())
+        setTitle('')
+        setContent('')
+        dispatch(getPosts())
+    }).catch((err) => {
+        console.error(err);
+    });
     dispatch(changeStatusModalAddPost(false))
   };
   
@@ -56,7 +48,7 @@ const ModalAddPost = () => {
           />
           <label style={styles.label}>Content:</label>
           <textarea
-            style={styles.form}
+            style={styles.formArea}
             name="content"
             onChange={(e) => setContent(e.target.value)}
           />
@@ -72,7 +64,6 @@ const ModalAddPost = () => {
 const styles = {
   modal: {
     position: 'fixed',
-    zIndex: 1,
     left: 0,
     top: 0,
     width: '100%',
@@ -127,6 +118,11 @@ const styles = {
     marginBottom: '5px',
   },
   form: {
+    marginBottom: '10px',
+    fontSize: '17px',
+  },
+  formArea: {
+    height: '20vh',
     marginBottom: '10px',
     fontSize: '17px',
   }
