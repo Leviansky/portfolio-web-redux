@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { setActiveTab } from '../../actions/homeAction';
 
 
-const PostPage = () => {
+const ContactUsPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setActiveTab('Post'))
+    dispatch(setActiveTab('Contactus'))
   }, [dispatch])
 
   return (
@@ -16,7 +16,7 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default ContactUsPage;
 
 const styles = {
   container: {

@@ -8,7 +8,6 @@ import { setActiveTab } from '../../actions/homeAction';
 
 const HomePage = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate();
   
   useEffect(() => {
     dispatch(setActiveTab('Home'))

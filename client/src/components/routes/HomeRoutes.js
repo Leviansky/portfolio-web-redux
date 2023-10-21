@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { HomePage, PostPage } from "../../pages";
+import { AboutUsPage, ContactUsPage, HomePage, PostPage } from "../../pages";
 import { isLogin } from '../../actions/userAction';
 import Navbar from "../home/Navbar";
 
@@ -23,6 +23,8 @@ const HomeRoutes = () => {
         ? <Routes>
             <Route path="" element={<HomePage />} />
             <Route path="post" element={<PostPage />} />
+            <Route path="about" element={<AboutUsPage />} />
+            <Route path="contact" element={<ContactUsPage />} />
           </Routes>
         : navigate('/user/login')
       }

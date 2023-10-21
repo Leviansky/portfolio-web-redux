@@ -22,11 +22,6 @@ const Navbar = () => {
     navigate('/user/login');
   }
 
-  // const handleTabClick = (tab) => {
-  //   setActiveTab(tab);
-  // };
-  
-
   return (
     <div style={styles.Navbar}>
       <div style={styles.containerNavbar}>
@@ -48,13 +43,13 @@ const Navbar = () => {
         )}
         <Link
           to="/about"
-          style={activeTab === 'About' ? { ...styles.link, ...styles.activeLink } : styles.link}
+          style={activeTab === 'Aboutus' ? { ...styles.link, ...styles.activeLink } : styles.link}
         >
           About us
         </Link>
         <Link
           to="/contact"
-          style={activeTab === 'Contact' ? { ...styles.link, ...styles.activeLink } : styles.link}
+          style={activeTab === 'Contactus' ? { ...styles.link, ...styles.activeLink } : styles.link}
         >
           Contact us
         </Link>
@@ -105,8 +100,7 @@ const styles = {
   },
   activeLink: {
     position: 'relative',
-    borderBottom: '2px solid blue',
-    transition: 'border-bottom 0.5s ease',
+    borderBottom: '2px solid black',
   },
   loginButton: {
     position: 'absolute',
