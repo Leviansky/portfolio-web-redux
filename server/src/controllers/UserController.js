@@ -63,7 +63,28 @@ class UserController {
     static async detailUser(req,res) {
         try {
             const id = +req.user.id;
-            let result = await User.findOne({where:{id},include: [Education, Experience, Organitation, Post]})
+            let result = await User.findOne({
+                where: { id },
+                include: [
+                  {
+                    model: Education,
+                    order: [['year', 'DESC']],
+                  },
+                  {
+                    model: Experience,
+                    order: [['createdAt', 'DESC']],
+                  },
+                  {
+                    model: Organitation,
+                    order: [['createdAt', 'DESC']],
+                  },
+                  {
+                    model: Post,
+                    order: [['createdAt', 'DESC']],
+                  }
+                ]
+              });
+              
             res.status(200).json(result)
         } catch (error) {
             res.status(500).json(error);

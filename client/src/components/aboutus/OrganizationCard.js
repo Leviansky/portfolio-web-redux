@@ -6,10 +6,12 @@ import {
   faTrash, 
   faSitemap 
 } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeStatusModalAddOrg, changeStatusModalEditOrg } from '../../actions/aboutusAction';
 
 const OrganizationCard = () => {
-const { detailUserResult } = useSelector((state) => state.AboutusReducer) 
+  const dispatch = useDispatch()
+  const { detailUserResult } = useSelector((state) => state.AboutusReducer) 
   return (
     <div style={styles.detailBox}>
         <div style={styles.titleDetailContainer}>
@@ -17,15 +19,14 @@ const { detailUserResult } = useSelector((state) => state.AboutusReducer)
             <div style={styles.textTitle}>Organization</div>
         </div>
         <div style={styles.containerButton}>
-            <button style={styles.button}><FontAwesomeIcon icon={faPlus} size='xl' color='gray'/></button>
-            <button style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='xl' color='gray'/></button>
+            <button onClick={() => dispatch(changeStatusModalAddOrg(true))} style={styles.button}><FontAwesomeIcon icon={faPlus} size='xl' color='gray'/></button>
         </div>
         {
             detailUserResult.Organitations.map((org) => {
             return (<div style={styles.cardContainer}>
                 <div style={styles.containerCardButton}>
-                <button style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
-                <button style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
+                  <button onClick={() => dispatch(changeStatusModalEditOrg(true))} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
+                  <button style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
                 </div>
                 <div style={styles.textTitleCard}>{org.name}</div>
                 <div style={styles.textContentCard}>{org.role}</div>

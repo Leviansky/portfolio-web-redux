@@ -37,8 +37,6 @@ const changeStatusModalEditPost = (data) => {
 
 const detailPost = (data) => {
     return async (dispatch) => {
-        console.log('cek di dispatch ==============');
-        console.log(data);
         dispatch({
             type: DETAIL_POST,
             payload: {

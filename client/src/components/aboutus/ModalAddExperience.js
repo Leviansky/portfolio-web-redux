@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
-import { addPost, changeStatusModalAddPost, getPosts, resetAddPost } from '../../actions/postAction';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { addExperience, changeStatusModalAddExp, getDetailUser } from '../../actions/aboutusAction';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-const ModalAddPost = () => {
+const ModalAddExperience = () => {
   const dispatch = useDispatch()
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [name_company, setNameCompany] = useState('')
+  const [role, setRole] = useState('')
+  const [jobdesk, setJobdesk] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPost({title, content})).then((result) => {
-        dispatch(resetAddPost())
-        setTitle('')
-        setContent('')
-        dispatch(getPosts())
-    }).catch((err) => {
-        console.error(err);
-    });
+    dispatch(addExperience({name_company, role, jobdesk}))
+    setNameCompany('')
+    setRole('')
+    setJobdesk('')
     Swal.fire({
-        // position: 'top-end',
-        icon: 'success',
-        title: 'Successfully added your post!',
-        showConfirmButton: false,
-        timer: 1500
+      icon: 'success',
+      title: 'Add experience success!',
+      showConfirmButton: false,
+      timer: 1500
     })
-    dispatch(changeStatusModalAddPost(false))
+    dispatch(getDetailUser())
+    dispatch(changeStatusModalAddExp(false))
   };
   
   const handleClose = () => {
-    dispatch(changeStatusModalAddPost(false))
+    dispatch(changeStatusModalAddExp(false))
   }
 
   return (
@@ -38,20 +35,28 @@ const ModalAddPost = () => {
         <span onClick={handleClose} style={styles.closeButton}>
           &times;
         </span>
-        <div style={styles.title}>ADD POST</div>
+        <div style={styles.title}>Add New Experience</div>
         <form style={styles.formContainer} onSubmit={handleSubmit}>
-          <label style={styles.label}>Title:</label>
+          <label style={styles.label}>Company Name:</label>
           <input
             style={styles.form}
             type="text"
-            name="title"
-            onChange={(e) => setTitle(e.target.value)}
+            name="name_company"
+            onChange={(e) => setNameCompany(e.target.value)}
           />
-          <label style={styles.label}>Content:</label>
+          <label style={styles.label}>Role:</label>
+          <input
+            style={styles.form}
+            type="text"
+            name="role"
+            onChange={(e) => setRole(e.target.value)}
+          />
+          <label style={styles.label}>Jobdesk:</label>
           <textarea
             style={styles.formArea}
-            name="content"
-            onChange={(e) => setContent(e.target.value)}
+            type="text"
+            name="jobdesk"
+            onChange={(e) => setJobdesk(e.target.value)}
           />
           <button type="submit" style={styles.submitButton}>
             Submit
@@ -82,7 +87,7 @@ const styles = {
     width: '32%',
     display: 'flex',
     flexDirection: 'column',
-    position: 'relative'
+    position: 'relative',
   },
   closeButton: {
     color: '#aaa',
@@ -95,8 +100,11 @@ const styles = {
   },
   formContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: 'red'
+    flexDirection: 'column'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   submitButton: {
     marginTop: '10px',
@@ -106,6 +114,18 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    fontWeight: 'bold',
+  },
+  deleteButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    width: '48%',
+    fontWeight: 'bold',
   },
   title: {
     marginTop: '10px',
@@ -129,4 +149,4 @@ const styles = {
   }
 };
 
-export default ModalAddPost;
+export default ModalAddExperience;

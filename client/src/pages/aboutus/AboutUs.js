@@ -3,14 +3,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTab } from '../../actions/homeAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { getDetailUser } from '../../actions/aboutusAction';
+import { changeStatusModalEditUser, getDetailUser } from '../../actions/aboutusAction';
 import EducationCard from '../../components/aboutus/EducationCard';
 import ExperienceCard from '../../components/aboutus/ExperienceCard';
 import OrganizationCard from '../../components/aboutus/OrganizationCard';
+import ModalEditProfile from '../../components/aboutus/ModalEditProfile';
+import ModalAddEducation from '../../components/aboutus/ModalAddEducation';
+import ModalAddExperience from '../../components/aboutus/ModalAddExperience';
+import ModalAddOrganization from '../../components/aboutus/ModalAddOrganization';
+import ModalEditEducation from '../../components/aboutus/ModalEditEducation';
+import ModalEditExperience from '../../components/aboutus/ModalEditExperience';
+import ModalEditOrganization from '../../components/aboutus/ModalEditOrganization';
 
 const AboutUsPage = () => {
   const dispatch = useDispatch();
-  const { detailUserResult, detailUserLoading, detailUserError } = useSelector((state) => state.AboutusReducer) 
+  const { 
+    detailUserResult, 
+    detailUserLoading, 
+    detailUserError, 
+    isOpenModalEditUser,
+    isOpenModalAddEducation,
+    isOpenModalEditEducation,
+    isOpenModalAddExperience,
+    isOpenModalEditExperience,
+    isOpenModalAddOrganization,
+    isOpenModalEditOrganization,
+  } = useSelector((state) => state.AboutusReducer) 
 
   useEffect(() => {
     dispatch(setActiveTab('Aboutus'));
@@ -27,7 +45,7 @@ const AboutUsPage = () => {
           <div style={styles.leftContainer}>
             <div style={styles.titleWithEditButton}>
               <div style={styles.title}>{detailUserResult.name.split(' ')[0]}</div>
-              <button style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='2x' color='gray'/></button>
+              <button onClick={() => dispatch(changeStatusModalEditUser(true))} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='2x' color='gray'/></button>
             </div>
             <div style={styles.title}>{detailUserResult.name.split(' ').slice(1).join(' ')}</div>
             <div style={styles.address}>
@@ -56,9 +74,31 @@ const AboutUsPage = () => {
         </div>
       ) : detailUserLoading ? (
         <p>Loading...</p>
-      ) : (
-        <p>{detailUserError ? detailUserError : 'Data kosong'}</p>
-      )}
+        ) : (
+          <p>{detailUserError ? detailUserError : 'Data kosong'}</p>
+          )
+      }
+      {
+        isOpenModalEditUser && (<ModalEditProfile />)
+      }
+      {
+        isOpenModalAddEducation && (<ModalAddEducation />)
+      }
+      {
+        isOpenModalEditEducation && (<ModalEditEducation />)
+      }
+      {
+        isOpenModalAddExperience && (<ModalAddExperience />)
+      }
+      {
+        isOpenModalEditExperience && (<ModalEditExperience />)
+      }
+      {
+        isOpenModalAddOrganization && (<ModalAddOrganization />)
+      }
+      {
+        isOpenModalEditOrganization && (<ModalEditOrganization />)
+      }
     </div>
   );
 };
