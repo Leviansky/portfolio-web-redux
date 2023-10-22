@@ -7,11 +7,40 @@ import {
   faSitemap 
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeStatusModalAddOrg, changeStatusModalEditOrg } from '../../actions/aboutusAction';
+import { changeStatusModalAddOrg, changeStatusModalEditOrg, deleteOrganization, detailOrganization, getDetailUser } from '../../actions/aboutusAction';
+import Swal from 'sweetalert2';
 
 const OrganizationCard = () => {
   const dispatch = useDispatch()
   const { detailUserResult } = useSelector((state) => state.AboutusReducer) 
+
+  const handleEdit = (data) => {
+    dispatch(detailOrganization(data))
+    dispatch(changeStatusModalEditOrg(true))
+  }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this organization?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteOrganization(id))
+        Swal.fire(
+          'Deleted!',
+          'Your organization has been successfully deleted.',
+          'success'
+        )
+        dispatch(getDetailUser())
+        }
+      })
+  }
+
   return (
     <div style={styles.detailBox}>
         <div style={styles.titleDetailContainer}>
@@ -25,8 +54,8 @@ const OrganizationCard = () => {
             detailUserResult.Organitations.map((org) => {
             return (<div style={styles.cardContainer}>
                 <div style={styles.containerCardButton}>
-                  <button onClick={() => dispatch(changeStatusModalEditOrg(true))} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
-                  <button style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
+                  <button onClick={() => handleEdit(org)} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
+                  <button onClick={() => handleDelete(org.id)} style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
                 </div>
                 <div style={styles.textTitleCard}>{org.name}</div>
                 <div style={styles.textContentCard}>{org.role}</div>

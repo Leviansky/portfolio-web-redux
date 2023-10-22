@@ -19,7 +19,6 @@ const ModalAddPost = () => {
         console.error(err);
     });
     Swal.fire({
-        // position: 'top-end',
         icon: 'success',
         title: 'Successfully added your post!',
         showConfirmButton: false,

@@ -7,11 +7,40 @@ import {
   faHourglassHalf, 
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeStatusModalAddExp, changeStatusModalEditExp } from '../../actions/aboutusAction';
+import { changeStatusModalAddExp, changeStatusModalEditExp, deleteExperience, detailExperience, getDetailUser } from '../../actions/aboutusAction';
+import Swal from 'sweetalert2';
 
 const ExperienceCard = () => {
   const dispatch = useDispatch()
-  const { detailUserResult } = useSelector((state) => state.AboutusReducer)   
+  const { detailUserResult } = useSelector((state) => state.AboutusReducer)
+  
+  const handleEdit = (data) => {
+    dispatch(detailExperience(data))
+    dispatch(changeStatusModalEditExp(true))
+  }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this experience?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteExperience(id))
+        Swal.fire(
+          'Deleted!',
+          'Your experience has been successfully deleted.',
+          'success'
+        )
+        dispatch(getDetailUser())
+        }
+      })
+  }
+
   return (
     <div style={styles.detailBox}>
         <div style={styles.titleDetailContainer}>
@@ -25,8 +54,8 @@ const ExperienceCard = () => {
             detailUserResult.Experiences.map((exp) => {
             return (<div style={styles.cardContainer}>
                 <div style={styles.containerCardButton}>
-                  <button onClick={() => dispatch(changeStatusModalEditExp(true))} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
-                  <button style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
+                  <button onClick={() => handleEdit(exp)} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
+                  <button onClick={() => handleDelete(exp.id)} style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
                 </div>
                 <div style={styles.textTitleCard}>{exp.name_company}</div>
                 <div style={styles.textContentCard}>{exp.role}</div>

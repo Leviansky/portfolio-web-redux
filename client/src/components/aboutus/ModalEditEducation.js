@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { changeStatusModalEditEdu } from '../../actions/aboutusAction';
+import { changeStatusModalEditEdu, editEducation, getDetailUser } from '../../actions/aboutusAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
@@ -7,23 +7,24 @@ const ModalEditEducation = () => {
   const dispatch = useDispatch()
   const [id, setId] = useState('')
   const [name, setName] = useState('')
-  const [address, setAddress] = useState('')
-  const [image, setImage] = useState('')
+  const [level, setLevel] = useState('')
+  const [year, setYear] = useState('')
 
-  const { detailUserResult } = useSelector((state) => state.AboutusReducer)
+  const { detailEducationResult } = useSelector((state) => state.AboutusReducer)
 
   useEffect(() => {
-    console.log("masuk di modal edit ni");
-    if(detailUserResult){
-        setId(detailUserResult.id)
-        setName(detailUserResult.name)
-        setAddress(detailUserResult.address)
-        setImage(detailUserResult.image)
+    if(detailEducationResult){
+        setId(detailEducationResult.id)
+        setName(detailEducationResult.name)
+        setLevel(detailEducationResult.level.replace(/ /g, '_'))
+        setYear(detailEducationResult.year)
     }
-  }, [detailUserResult, dispatch])
+  }, [detailEducationResult, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const levelWithoutUnderscore = level.replace(/_/g, ' ');
+    console.log(levelWithoutUnderscore);
     Swal.fire({
         title: 'Are you sure?',
         text: "You want to update this content?",
@@ -34,17 +35,17 @@ const ModalEditEducation = () => {
         confirmButtonText: 'Yes, update it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            // dispatch(editPost(id,{title, content, image}))
+            dispatch(editEducation(id,{name, level:levelWithoutUnderscore, year}))
             setName('')
-            setAddress('')
-            setImage('')
+            setLevel('')
+            setYear('')
             Swal.fire(
                 'Retrieved!',
                 'Your post has been successfully updated.',
                 'success'
                 )
             }
-            // dispatch(getPosts())
+            dispatch(getDetailUser())
         })
     dispatch(changeStatusModalEditEdu(false))
   };
@@ -59,36 +60,34 @@ const ModalEditEducation = () => {
         <span onClick={handleClose} style={styles.closeButton}>
           &times;
         </span>
-        <div style={styles.title}>Edit Education</div>
+        <div style={styles.title}>Edit education</div>
         <form style={styles.formContainer} onSubmit={handleSubmit}>
-          <label style={styles.label}>URL Image:</label>
-          <input
-            style={styles.form}
-            type="text"
-            name="imageUrl"
-            value={image}
-            // onChange={(e) => setImage(e.target.value)}
-          />
-          <label style={styles.label}>Name:</label>
-          <input
-            style={styles.form}
-            type="text"
-            name="title"
-            value={name}
-            // onChange={(e) => setTitle(e.target.value)}
-          />
-          <label style={styles.label}>Address:</label>
-          <input
-            style={styles.form}
-            type="text"
-            name="title"
-            value={address}
-            // onChange={(e) => setTitle(e.target.value)}
-          />
-          <div style={styles.buttonContainer}>
-            <button type="reset" style={styles.deleteButton}>Delete</button>
-            <button type="submit" style={styles.submitButton}>Submit</button>
-          </div>
+            <label style={styles.label}>Education Level:</label>
+            <select style={styles.form} value={level} onChange={(e) => setLevel(e.target.value)}>
+                <option value="Elementary_School">Elementary School</option>
+                <option value="Junior_High_School">Junior High School</option>
+                <option value="Senior_High_School">Senior High School</option>
+                <option value="University">University</option>
+            </select>
+            <label style={styles.label}>Name School:</label>
+            <input
+                style={styles.form}
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
+            <label style={styles.label}>Year of Graduation:</label>
+            <input
+                style={styles.form}
+                type="number"
+                name="year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+            />
+            <button type="submit" style={styles.submitButton}>
+                Submit
+            </button>
         </form>
       </div>
     </div>
@@ -142,7 +141,6 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    width: '48%',
     fontWeight: 'bold',
   },
   deleteButton: {

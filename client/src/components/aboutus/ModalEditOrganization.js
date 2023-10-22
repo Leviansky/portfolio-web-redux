@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { changeStatusModalEditOrg } from '../../actions/aboutusAction';
+import { changeStatusModalEditOrg, editOrganization, getDetailUser } from '../../actions/aboutusAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
@@ -7,20 +7,18 @@ const ModalEditOrganization = () => {
   const dispatch = useDispatch()
   const [id, setId] = useState('')
   const [name, setName] = useState('')
-  const [address, setAddress] = useState('')
-  const [image, setImage] = useState('')
+  const [role, setRole] = useState('')
 
-  const { detailUserResult } = useSelector((state) => state.AboutusReducer)
+  const { detailOrganizationResult } = useSelector((state) => state.AboutusReducer)
 
   useEffect(() => {
     console.log("masuk di modal edit ni");
-    if(detailUserResult){
-        setId(detailUserResult.id)
-        setName(detailUserResult.name)
-        setAddress(detailUserResult.address)
-        setImage(detailUserResult.image)
+    if(detailOrganizationResult){
+        setId(detailOrganizationResult.id)
+        setName(detailOrganizationResult.name)
+        setRole(detailOrganizationResult.role)
     }
-  }, [detailUserResult, dispatch])
+  }, [detailOrganizationResult, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,17 +32,16 @@ const ModalEditOrganization = () => {
         confirmButtonText: 'Yes, update it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            // dispatch(editPost(id,{title, content, image}))
+            dispatch(editOrganization(id,{name, role}))
             setName('')
-            setAddress('')
-            setImage('')
+            setRole('')
             Swal.fire(
                 'Retrieved!',
                 'Your post has been successfully updated.',
                 'success'
                 )
             }
-            // dispatch(getPosts())
+            dispatch(getDetailUser())
         })
     dispatch(changeStatusModalEditOrg(false))
   };
@@ -60,35 +57,25 @@ const ModalEditOrganization = () => {
           &times;
         </span>
         <div style={styles.title}>Edit Organization</div>
+        <div style={styles.title}>Add New Organization</div>
         <form style={styles.formContainer} onSubmit={handleSubmit}>
-          <label style={styles.label}>URL Image:</label>
+          <label style={styles.label}>Organization Name:</label>
           <input
             style={styles.form}
             type="text"
-            name="imageUrl"
-            value={image}
-            // onChange={(e) => setImage(e.target.value)}
-          />
-          <label style={styles.label}>Name:</label>
-          <input
-            style={styles.form}
-            type="text"
-            name="title"
+            name="name"
             value={name}
-            // onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
-          <label style={styles.label}>Address:</label>
-          <input
-            style={styles.form}
+          <label style={styles.label}>Role:</label>
+          <textarea
+            style={styles.formArea}
             type="text"
-            name="title"
-            value={address}
-            // onChange={(e) => setTitle(e.target.value)}
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
           />
-          <div style={styles.buttonContainer}>
-            <button type="reset" style={styles.deleteButton}>Delete</button>
-            <button type="submit" style={styles.submitButton}>Submit</button>
-          </div>
+          <button type="submit" style={styles.submitButton}>Submit</button>
         </form>
       </div>
     </div>
@@ -105,7 +92,6 @@ const styles = {
     overflow: 'auto',
     backgroundColor: 'rgba(0,0,0,0.4)',
     zIndex: '10',
-    // backgroundColor: 'green'
   },
   modalContent: {
     backgroundColor: '#fefefe',
@@ -142,7 +128,6 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    width: '48%',
     fontWeight: 'bold',
   },
   deleteButton: {

@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { changeStatusModalEditExp } from '../../actions/aboutusAction';
+import { changeStatusModalEditExp, editExperience, getDetailUser } from '../../actions/aboutusAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
 const ModalEditExperience = () => {
   const dispatch = useDispatch()
   const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const [address, setAddress] = useState('')
-  const [image, setImage] = useState('')
+  const [name_company, setNameCompany] = useState('')
+  const [role, setRole] = useState('')
+  const [jobdesk, setJobdesk] = useState('')
 
-  const { detailUserResult } = useSelector((state) => state.AboutusReducer)
+  const { detailExperienceResult } = useSelector((state) => state.AboutusReducer)
 
   useEffect(() => {
-    console.log("masuk di modal edit ni");
-    if(detailUserResult){
-        setId(detailUserResult.id)
-        setName(detailUserResult.name)
-        setAddress(detailUserResult.address)
-        setImage(detailUserResult.image)
+    if(detailExperienceResult){
+        setId(detailExperienceResult.id)
+        setNameCompany(detailExperienceResult.name_company)
+        setRole(detailExperienceResult.role)
+        setJobdesk(detailExperienceResult.jobdesk)
     }
-  }, [detailUserResult, dispatch])
+  }, [detailExperienceResult, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,17 +33,17 @@ const ModalEditExperience = () => {
         confirmButtonText: 'Yes, update it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            // dispatch(editPost(id,{title, content, image}))
-            setName('')
-            setAddress('')
-            setImage('')
+            dispatch(editExperience(id,{name_company, role, jobdesk}))
+            setNameCompany('')
+            setRole('')
+            setJobdesk('')
             Swal.fire(
                 'Retrieved!',
                 'Your post has been successfully updated.',
                 'success'
                 )
             }
-            // dispatch(getPosts())
+            dispatch(getDetailUser())
         })
     dispatch(changeStatusModalEditExp(false))
   };
@@ -59,36 +58,35 @@ const ModalEditExperience = () => {
         <span onClick={handleClose} style={styles.closeButton}>
           &times;
         </span>
-        <div style={styles.title}>Edit Exoerience</div>
+        <div style={styles.title}>Edit Experience</div>
         <form style={styles.formContainer} onSubmit={handleSubmit}>
-          <label style={styles.label}>URL Image:</label>
+          <label style={styles.label}>Company Name:</label>
           <input
             style={styles.form}
             type="text"
-            name="imageUrl"
-            value={image}
-            // onChange={(e) => setImage(e.target.value)}
+            name="name_company"
+            value={name_company}
+            onChange={(e) => setNameCompany(e.target.value)}
           />
-          <label style={styles.label}>Name:</label>
+          <label style={styles.label}>Role:</label>
           <input
             style={styles.form}
             type="text"
-            name="title"
-            value={name}
-            // onChange={(e) => setTitle(e.target.value)}
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
           />
-          <label style={styles.label}>Address:</label>
-          <input
-            style={styles.form}
+          <label style={styles.label}>Jobdesk:</label>
+          <textarea
+            style={styles.formArea}
             type="text"
-            name="title"
-            value={address}
-            // onChange={(e) => setTitle(e.target.value)}
+            name="jobdesk"
+            value={jobdesk}
+            onChange={(e) => setJobdesk(e.target.value)}
           />
-          <div style={styles.buttonContainer}>
-            <button type="reset" style={styles.deleteButton}>Delete</button>
-            <button type="submit" style={styles.submitButton}>Submit</button>
-          </div>
+          <button type="submit" style={styles.submitButton}>
+            Submit
+          </button>
         </form>
       </div>
     </div>
@@ -142,7 +140,6 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    width: '48%',
     fontWeight: 'bold',
   },
   deleteButton: {

@@ -7,11 +7,40 @@ import {
   faTrash, 
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeStatusModalAddEdu, changeStatusModalEditEdu } from '../../actions/aboutusAction';
+import { changeStatusModalAddEdu, changeStatusModalEditEdu, deleteEducation, detailEducation, getDetailUser } from '../../actions/aboutusAction';
+import Swal from 'sweetalert2';
 
 const EducationCard = () => {
   const dispatch = useDispatch()
   const { detailUserResult } = useSelector((state) => state.AboutusReducer) 
+
+  const handleEdit = (data) => {
+    dispatch(detailEducation(data))
+    dispatch(changeStatusModalEditEdu(true))
+  }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this education?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteEducation(id))
+        Swal.fire(
+          'Deleted!',
+          'Your post has been successfully deleted.',
+          'success'
+          )
+          dispatch(getDetailUser())
+        }
+      })
+  }
+
   return (
     <div style={styles.detailBox}>
         <div style={styles.titleDetailContainer}>
@@ -25,8 +54,8 @@ const EducationCard = () => {
             detailUserResult.Education.map((edu) => {
             return (<div style={styles.cardContainer}>
                 <div style={styles.containerCardButton}>
-                  <button onClick={() => dispatch(changeStatusModalEditEdu(true))} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
-                  <button style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
+                  <button onClick={() => handleEdit(edu)} style={styles.button}><FontAwesomeIcon icon={faPenToSquare} size='sm' color='gray'/></button>
+                  <button onClick={() => handleDelete(edu.id)} style={styles.button}><FontAwesomeIcon icon={faTrash} size='sm' color='gray'/></button>
                 </div>
                   <div style={styles.textTitleCard}>{edu.level}</div>
                   <div style={styles.nameSchool}>{edu.name} - {edu.year}
