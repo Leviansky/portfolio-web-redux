@@ -117,7 +117,6 @@ const loginUser = (data) => {
                 timeout: 12000
             })
             Swal.fire({
-                position: 'top-end',
                 icon: 'success',
                 title: 'Login success',
                 showConfirmButton: false,
@@ -153,7 +152,6 @@ const loginUser = (data) => {
 const resetLogin = () => {
     return (dispatch) =>{
         Swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: 'Logout success',
             showConfirmButton: false,

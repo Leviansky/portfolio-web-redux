@@ -20,6 +20,7 @@ import {
     DELETE_EDU,
     DELETE_EXP,
     DELETE_ORG,
+    RESET_DETAIL_USER
  } from "../../actions/aboutusAction"
 
 const initialState = {
@@ -91,6 +92,11 @@ const AboutusReducer = (state = initialState, action) => {
                 detailUserResult: action.payload.data,
                 detailUserLoading: action.payload.loading,
                 detailUserError: action.payload.error,
+            }
+        case RESET_DETAIL_USER:
+            return {
+                ...state,
+                detailUserResult: false,
             }
         case DELETE_EDU:
             return {

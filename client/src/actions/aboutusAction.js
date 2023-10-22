@@ -6,6 +6,7 @@ const URL_EXP = 'http://localhost:3000/api/experiences'
 const URL_ORG = 'http://localhost:3000/api/organitations'
 
 const GET_DETAIL_USER = "GET_DETAIL_USER"
+const RESET_DETAIL_USER = "RESET_DETAIL_USER"
 const MODAL_EDIT_USER = "MODAL_EDIT_USER"
 const MODAL_ADD_EDU = "MODAL_ADD_EDU"
 const MODAL_EDIT_EDU = "MODAL_EDIT_EDU"
@@ -612,6 +613,17 @@ const getDetailUser = () => {
     }
 }
 
+const resetDetailUser = () => {
+    return async (dispatch) => {
+        dispatch({
+            type: RESET_DETAIL_USER,
+            payload: {
+                data: false
+            }
+        })
+    }
+}
+
 export {
     GET_DETAIL_USER,
     MODAL_EDIT_USER,
@@ -634,6 +646,8 @@ export {
     DELETE_EDU,
     DELETE_EXP,
     DELETE_ORG,
+    RESET_DETAIL_USER,
+    resetDetailUser,
     deleteEducation,
     deleteExperience,
     deleteOrganization,

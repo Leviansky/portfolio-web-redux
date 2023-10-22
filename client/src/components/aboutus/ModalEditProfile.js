@@ -49,6 +49,8 @@ const ModalEditProfile = () => {
               )
           }
           dispatch(getDetailUser())
+          localStorage.removeItem("name")
+          localStorage.setItem("name", name)
         })
     dispatch(changeStatusModalEditUser(false))
   };

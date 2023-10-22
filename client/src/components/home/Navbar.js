@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { resetLogin } from '../../actions/userAction'
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { resetDetailUser } from '../../actions/aboutusAction';
 
 const Navbar = () => {
   const [token, setToken] = useState(null);
   const [name, setName] = useState('')
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { activeTab } = useSelector((state) => state.HomeReducer)
+  const { detailUserResult } = useSelector((state) => state.AboutusReducer)
   
   useEffect(() => {
     setToken(localStorage.getItem('access_token'))
@@ -16,7 +19,7 @@ const Navbar = () => {
     console.log(activeTab, `Harusnya apa ni`);
   }, [activeTab, dispatch])
   
-  const navigate = useNavigate()
+  
   const logoutHandler = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -30,12 +33,8 @@ const Navbar = () => {
       if (result.isConfirmed) {
         localStorage.clear();
         dispatch(resetLogin())
+        dispatch(resetDetailUser())
         navigate('/user/login');
-        // Swal.fire(
-        //     'Retrieved!',
-        //     'Your post has been successfully retrieved.',
-        //     'success'
-        // )
       }
     })
   }
@@ -72,18 +71,27 @@ const Navbar = () => {
           Contact us
         </Link>
       </div>
-      {name ? (
-        <div style={styles.profile}>
+      {
+        detailUserResult.name ? (
+          <div style={styles.profile}>
+            <div>{detailUserResult.name}</div>
+            <button style={styles.logoutButton} onClick={() => logoutHandler()}>
+              LOGOUT!
+            </button>
+          </div>
+        ) : name ? (
+          <div style={styles.profile}>
           <div>{name}</div>
-          <button style={styles.logoutButton} onClick={() => logoutHandler()}>
-            LOGOUT!
-          </button>
-        </div>
-      ) : (
-        <Link to="/user/login" style={styles.loginButton}>
-          LOGIN!
-        </Link>
-      )}
+            <button style={styles.logoutButton} onClick={() => logoutHandler()}>
+              LOGOUT!
+            </button>
+          </div>
+        ) : (
+          <Link to="/user/login" style={styles.loginButton}>
+            LOGIN!
+          </Link>
+        )
+      }
     </div>
   );
 };
