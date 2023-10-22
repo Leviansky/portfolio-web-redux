@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const SelectorCard = () => {
   const dispatch = useDispatch();
-  const { changePostResult, getPostsResult, getPostsLoading, getPostsError, detailPostResult } = useSelector(
+  const { changePostResult, getPostsResult, getPostsLoading, getPostsError } = useSelector(
     (state) => state.PostReducer
   );
 

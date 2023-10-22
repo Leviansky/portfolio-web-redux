@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { changeStatusModalEditPost, deletePost, editPost, getPosts, resetAddPost } from '../../actions/postAction';
+import { changeStatusModalEditPost, deletePost, editPost, getPosts } from '../../actions/postAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 

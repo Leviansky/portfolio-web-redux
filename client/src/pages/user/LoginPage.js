@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/home/Navbar';
 import {useDispatch, useSelector} from 'react-redux';
 import { isLogin, loginUser, setLogin} from '../../actions/userAction'
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
   const {isLoginResult, loginUserResult} = useSelector((state) => state.UserReducer)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -28,7 +26,7 @@ const LoginPage = () => {
       navigate('/');
       dispatch(setLogin())
     }
-  }, [loginUserResult, dispatch])
+  }, [loginUserResult, dispatch, navigate])
   return (
     <>
       {

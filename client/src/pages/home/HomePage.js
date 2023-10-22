@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react'
-import { useNavigate } from "react-router-dom";
-import Navbar from '../../components/home/Navbar'
 import Content from '../../components/home/Content'
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setActiveTab } from '../../actions/homeAction';
 
 

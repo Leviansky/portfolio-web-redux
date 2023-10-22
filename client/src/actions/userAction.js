@@ -123,6 +123,7 @@ const loginUser = (data) => {
                 showConfirmButton: false,
                 timer: 1500
               })
+              
             dispatch({
                 type: LOGIN,
                 payload: {

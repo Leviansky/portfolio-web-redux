@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTab } from '../../actions/homeAction';
 import SelectorCard from '../../components/post/SelectorCard';
 import ModalAddPost from '../../components/post/ModalAddPost';
-import { changeStatusModalAddPost, changeStatusModalEditPost } from '../../actions/postAction';
+import { changeStatusModalAddPost } from '../../actions/postAction';
 import ModalEditPost from '../../components/post/ModalEditPost';
 
 const PostPage = () => {

@@ -20,7 +20,7 @@ const RegisterPage = () => {
         if(token) {
             navigate('/');
         }
-    }, [token])
+    }, [token, navigate])
 
     useEffect(() => {
         if (registerUserResult) {
@@ -36,7 +36,7 @@ const RegisterPage = () => {
         } else {
           console.log('gada token');
         }
-      }, [registerUserResult, dispatch]);
+      }, [registerUserResult, dispatch, navigate]);
   
     const registerHandler = (event) => {
       event.preventDefault()
